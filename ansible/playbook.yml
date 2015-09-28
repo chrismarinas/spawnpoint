@@ -15,3 +15,4 @@
       - "vars/{{ ansible_os_family }}.yml"
   roles:
     - os-setup
+    - common

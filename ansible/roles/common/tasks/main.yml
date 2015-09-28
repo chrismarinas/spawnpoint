@@ -1,0 +1,6 @@
+---
+
+- name: Package manager test
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  with_items:
+    - vim

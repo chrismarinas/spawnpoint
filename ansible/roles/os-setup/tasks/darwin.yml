@@ -3,3 +3,33 @@
 - name: Who am I?
   debug:
     msg: "{{ SP_MACHINE_NAME }}"
+
+- name: Make sure the Homebrew directory exists
+  sudo: yes
+  file:
+    path: /usr/local
+    state: directory
+    mode: 0775
+    owner: root
+    group: admin
+    recurse: yes
+
+- name: Install Homebrew with git
+  git:
+    repo: https://github.com/Homebrew/homebrew.git
+    dest: /usr/local
+    version: master
+    force: yes
+    clone: yes
+    update: yes
+
+- name: Update Homebrew
+  homebrew:
+    update_homebrew: yes
+
+- name: Configure brew taps
+  homebrew_tap:
+    tap: "{{ item }}"
+    state: present
+  with_items:
+    - caskroom/cask
