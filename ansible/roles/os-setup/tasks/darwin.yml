@@ -1,0 +1,5 @@
+---
+
+- name: Who am I?
+  debug:
+    msg: "{{ SP_MACHINE_NAME }}"

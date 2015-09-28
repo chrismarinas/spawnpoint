@@ -1,6 +1,6 @@
 ---
 
-- name: Identify which group to run
+- name: Set OS family for LinuxMint
   hosts: all
   tasks:
     - name: Identify LinuxMint as Debian so we can select the correct group
@@ -8,20 +8,10 @@
         ansible_os_family: "Debian"
       when: ansible_os_family == "Debian" or ansible_os_family == "Linuxmint"
 
-    - name: Determine OS
-      group_by:
-        key: "{{ ansible_os_family }}"
-
-- name: Run Debian playbook
-  hosts: Debian
-  tasks:
-    - name: Identify yourself
-      debug:
-        msg: "{{ ansible_os_family }}"
-
-- name: Run OSX playbook
-  hosts: Darwin
-  tasks:
-    - name: Identify yourself
-      debug:
-        msg: "OSX and such"
+- name: Run basic OS setup
+  hosts: all
+  gather_facts: false
+  vars_files:
+      - "vars/{{ ansible_os_family }}.yml"
+  roles:
+    - os-setup

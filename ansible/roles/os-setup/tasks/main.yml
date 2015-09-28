@@ -1,0 +1,9 @@
+---
+
+- name: Debian-specific setup
+  include: debian.yml
+  when: ansible_os_family == "Debian" or ansible_os_family == "Linuxmint"
+
+- name: OSX-specific setup
+  include: darwin.yml
+  when: ansible_os_family == "Darwin"
