@@ -5,14 +5,11 @@
     msg: "{{ SP_MACHINE_NAME }}"
 
 - name: Make sure the Homebrew directory exists
-  sudo: yes
   file:
     path: /usr/local
     state: directory
     mode: 0775
-    owner: root
     group: admin
-    recurse: yes
 
 - name: Install Homebrew with git
   git:
@@ -20,16 +17,19 @@
     dest: /usr/local
     version: master
     force: yes
-    clone: yes
-    update: yes
-
-- name: Update Homebrew
-  homebrew:
-    update_homebrew: yes
 
 - name: Configure brew taps
   homebrew_tap:
     tap: "{{ item }}"
     state: present
   with_items:
-    - caskroom/cask
+    - homebrew/dupes
+    - homebrew/versions
+
+- name: Update Homebrew
+  homebrew:
+    update_homebrew: yes
+
+- name: Set package manager to homebrew
+  set_fact:
+    ansible_pkg_mgr: homebrew
